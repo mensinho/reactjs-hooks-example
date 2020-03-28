@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.css';
 
 function App() {
-  const [techs, setTechs] = useState(['ReactJS', 'React Native', 'NodeJS']);
+  const [techs, setTechs] = useState([]);
   const [newTech, setNewTech] = useState('');
 
+  useEffect(() => {
+    const data = localStorage.getItem('techs');
+      if(data) {
+        setTechs(JSON.parse(data));
+      }
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('techs', JSON.stringify(techs));
+  }, [techs])
+
   function handleAdd() {
-    setTechs([...techs, newTech]);
-    setNewTech('');
+    if(newTech !== '') {
+      setTechs([...techs, newTech]);
+      setNewTech('');
+    }
   };
 
   return (
